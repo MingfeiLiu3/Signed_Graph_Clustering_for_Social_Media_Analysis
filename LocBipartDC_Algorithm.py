@@ -54,8 +54,8 @@ def simplify(num_g_vertices: int, sparse_vector):
 
 
 # Load the edges information of the graph G_neg the its double cover
-g_neg = stag.graphio.load_edgelist('G_neg_graph.edgelist')
-h_neg = stag.graphio.load_edgelist('H_neg_graph.edgelist')
+g_neg = stag.graphio.load_edgelist('./Graphs/G_neg_graph.edgelist')
+h_neg = stag.graphio.load_edgelist('./Graphs/H_neg_graph.edgelist')
 
 
 # Load dictionaries mapping between graph nodes and user ids
@@ -81,7 +81,7 @@ except:
     
 # Run the approximate pagerank on the double cover graph
 alpha = 0.01
-epsilon = 9.4798e-4   # For example
+epsilon = 9.4798e-3   # For example
 size_factor = 0.7
 seed_vector = scipy.sparse.lil_matrix((h_neg.number_of_vertices(), 1))
 seed_vector[starting_vertex, 0] = 1
@@ -99,4 +99,4 @@ that_cluster = [vertex_to_user_neg.get(i - g_neg.number_of_vertices()) for i in 
 print(this_cluster, that_cluster)
 
 #computing the conductance of the resulting cluster
-stag.cluster.conductance(h_neg, sweep_set)
+print(stag.cluster.conductance(h_neg, sweep_set))
