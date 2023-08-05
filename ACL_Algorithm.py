@@ -6,9 +6,9 @@ import pymysql
 
 import scipy.sparse
 
-import Graph_builder
+#import Graph_builder
 
-# 打开数据库连接
+
 db = pymysql.connect(
     host = '127.0.0.1',
     port = 3306,
@@ -16,7 +16,6 @@ db = pymysql.connect(
     passwd = 'Vision33',
     db = 'mysql')
  
-# 使用 cursor() 方法创建一个游标对象 cursor
 cursor = db.cursor()
 
 def load_pos_vertex_dictionaries():
@@ -24,12 +23,9 @@ def load_pos_vertex_dictionaries():
     vertex_to_user_pos = {}
     user_to_vertex_pos = {}
 
-    # SQL 查询语句
     sql_list = "SELECT * FROM USER_LIST_G_pos"
     try:
-        # 执行SQL语句
         cursor.execute(sql_list)
-        # 获取所有记录列表
         results_list = cursor.fetchall()
         for row_list in results_list:
             User_Id = row_list[0]
