@@ -53,8 +53,8 @@ def simplify(num_g_vertices: int, sparse_vector):
 
 
 # Load the edges information of the graph G and its signed 2-lift 
-h = stag.graphio.load_edgelist('H_graph.edgelist')
-g = stag.graphio.load_edgelist('G_graph.edgelist')
+h = stag.graphio.load_edgelist('./Graphs/H_graph.edgelist')
+g = stag.graphio.load_edgelist('./Graphs/G_graph.edgelist')
 
 # Load dictionaries mapping between graph nodes and user ids
 user_to_vertex, vertex_to_user = load_G_vertex_dictionaries()
@@ -101,4 +101,4 @@ print(this_cluster, that_cluster)
     
     
 #computing the conductance of the resulting cluster
-stag.cluster.conductance(h, sweep_set)
+print(stag.cluster.conductance(h, sweep_set))
