@@ -38,7 +38,7 @@ def load_pos_vertex_dictionaries():
 
 
 # Load the positive edges information 
-g_pos = stag.graphio.load_edgelist('G_pos_graph.edgelist')
+g_pos = stag.graphio.load_edgelist('./Graphs/G_pos_graph.edgelist')
 
 # Load dictionaries mapping between graph nodes and user ids
 user_to_vertex_pos, vertex_to_user_pos = load_pos_vertex_dictionaries()
@@ -77,4 +77,4 @@ cluster = [vertex_to_user_pos[i] for i in sweep_set if i < g_pos.number_of_verti
 print(cluster)
 
 #computing the conductance of the resulting cluster
-stag.cluster.conductance(g_pos, sweep_set)
+print(stag.cluster.conductance(g_pos, sweep_set))
