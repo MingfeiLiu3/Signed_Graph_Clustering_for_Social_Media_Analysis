@@ -8,10 +8,10 @@ import pymysql
 from random import sample
 
 import Graph_builder
-import Signed_2_Lift_Clustering
-import Signed_Bipartite_Clustering
-import comparison_H_neg_TO_H
-import comparison_H_TO_H_neg
+import LocBipartDC_rand
+import LocSigned2L_rand
+import H_neg_TO_H
+import H_TO_H_neg
 
 
 db = pymysql.connect(
@@ -47,21 +47,22 @@ except:
     raise Exception("Error: unable to fetch data")
 
 
-
+# Randomly selected 200 users in the G_neg
 sample = sample(neg_user_list, 2000)
 for s in sample:
     
-    sweep_set_H, cond_H = Signed_2_Lift_Clustering.signed_2_lift_clustering(s)
+    sweep_set_H, cond_H = LocSigned2L_rand.LocSigned2L_clustering(s)
     print('The conductnace from signed 2-lift clustering algorithm: '+ str(cond_H))
-    cond_H_neg_from_H = comparison_H_TO_H_neg.convert_H_TO_H_neg(sweep_set_H)
+    cond_H_neg_from_H = H_TO_H_neg.convert_H_TO_H_neg(sweep_set_H)
     print('Based on the same vertices, convert the H to the H_neg. The conductance of H_neg: '+ str(cond_H_neg_from_H))
     
-    sweep_set_H_neg, cond_H_neg = Signed_Bipartite_Clustering.signed_bipartite_clustering(s)
+    sweep_set_H_neg, cond_H_neg = LocBipartDC_rand.LocBipartDC_clustering(s)
     print('The conductnace from signed bipartiteness clustering algorithm: '+ str(cond_H_neg))
-    cond_H_from_H_neg = comparison_H_neg_TO_H.convert_H_neg_TO_H(sweep_set_H_neg)
+    cond_H_from_H_neg = H_neg_TO_H.convert_H_neg_TO_H(sweep_set_H_neg)
     print('Based on the same vertices, convert the H_neg to the H. The conductance of H: '+ str(cond_H_from_H_neg))
     print('\n')
     
+    # Store the selected sample to the Database
     sql_add = """INSERT INTO Random_USER_LIST_G_neg(User_Id, cond_H_neg, cond_H_from_H_neg, cond_H, cond_H_neg_from_H)
                 VALUES (%s,%s,%s,%s,%s)""" 
     par_add = (s, cond_H_neg, cond_H_from_H_neg, cond_H, cond_H_neg_from_H)
